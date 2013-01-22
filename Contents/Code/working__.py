@@ -3,10 +3,6 @@ NAME = 'TVHeadend'
 ART = 'art-default.jpg'
 ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
-user = 'yakumo'
-password = '394fq3'
-addr = 'hemma.yakumo.se'
-port = '9981'
 structure = 'stream/channelid'
 htsurl = 'http://%s:%s@%s:%s/%s/' % (user, password, addr, port, structure)
 

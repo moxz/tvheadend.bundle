@@ -7,6 +7,7 @@ WIP
 What does it do for now?
 It supports direct stream from TVheadend from a dreictly taken stream : example http://user:password@server:port/stream/channelid/number
 Preferences for username password port and host is there and working.
+It only works in PHT och PLEX Media Client on OSX Win Linux for now.
 
 Things to do in no order:
 Auto import and list channels from tvheadend

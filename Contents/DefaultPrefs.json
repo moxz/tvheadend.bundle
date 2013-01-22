@@ -1,0 +1,27 @@
+[
+    {
+        "id": "tvheadend_user",
+        "label": "Username",
+        "type": "text",
+        "default": "" 
+    },
+    {
+        "id": "tvheadend_pass",
+        "label": "Password",
+        "type": "text",
+        "option": "hidden",
+        "default": "" 
+    },
+    {
+        "id": "tvheadend_host",
+        "label": "HOST",
+        "type": "text",
+        "default": "" 
+    },
+    {
+        "id": "tvheadend_port",
+        "label": "port",
+        "type": "text",
+        "default": "9981" 
+    }
+]

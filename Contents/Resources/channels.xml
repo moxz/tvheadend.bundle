@@ -1,7 +1,7 @@
 <?xml version="1.0" ?> 
 <data>
 	<items>
-		<channel name="SVT1" id="64"></channel>
+		<channel name="SVT1" id="64" icon="http://xmltv.tvsajten.com/chanlogos/svt1.svt.se.png"></channel>
 		<channel name="SVT2" id="66"></channel>
 		<channel name="TV3" id="76"></channel>
 		<channel name="TV4" id="77"></channel>

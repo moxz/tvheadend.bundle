@@ -1,10 +1,17 @@
 ####################################################################################################
+#               Thanks to Mikedm139 for helping me getting this to work. 			   #
+####################################################################################################
 NAME = 'TVHeadend'
 ART = 'art-default.jpg'
 ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
 structure = 'stream/channelid'
 htsurl = 'http://%s:%s@%s:%s/%s/' % (Prefs['tvheadend_user'], Prefs['tvheadend_pass'], Prefs['tvheadend_host'], Prefs['tvheadend_port'], structure)
+xml_file = Resource.Load('channels.xml')
+
+#Texts
+TEXT_TITLE = u'HTS-TVheadend'
+TEXT_CHANNELS = u'Channels'
 
 ####################################################################################################
 
@@ -12,29 +19,48 @@ def Start():
 	Plugin.AddPrefixHandler(PLUGIN_PREFIX, MainMenu, NAME, ICON, ART)
 
 	ObjectContainer.art = R(ART)	
-	objectContainer.title1 = NAME
-
 	TrackObject.thumb = R(ICON)
 
 ####################################################################################################
 
+@handler('/video/tvheadend', TEXT_TITLE, thumb=ICON, art=ART)
 def MainMenu():
 
-	oc = ObjectContainer(no_cache = True)
-	oc.add(DirectoryObject(key = Callback(ChannelsMenu, title = L('Channels')), title = L('Channels')))
+	menu = ObjectContainer(title1=TEXT_TITLE)
+	menu.add(DirectoryObject(key=Callback(GetChannels, prevTitle=TEXT_TITLE), title=TEXT_CHANNELS,))
+	menu.add(PrefsObject(title='Preferences'))
 
-	oc.add(PrefsObject(title = L('Preferences')))
+	return menu
 
-	return oc
+def GetChannels(prevTitle):
 
-def ChannelsMenu(title):
-        oc = ObjectContainer(view_group='InfoList')
+        xml_content = XML.ElementFromString(xml_file)
+        channels = xml_content.xpath("//channel")
+        channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
 
-        oc = ObjectContainer(title1="Channels")
-        mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s25" % (htsurl)))])
-        vco = VideoClipObject(title="C More Sport", url='%s25' % (htsurl))
-        vco.add(mo)
-        oc.add(vco)
 
-        return oc
+        for channel in channels:
+                name = channel.get('name')
+                id = channel.get('id')
+		icons = channel.get('icon')
+                mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
+                vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
+                vco.add(mo)
+                channelList.add(vco)
+
+        return channelList
+
+
+
+#Original Demo code below
+#def ChannelsMenu(title):
+#	oc = ObjectContainer(view_group='InfoList')
+#
+#	oc = ObjectContainer(title1="Channels")
+#	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s25" % (htsurl)))])
+#	vco = VideoClipObject(title="C More Sport", url='%s25' % (htsurl))
+#	vco.add(mo)
+#	oc.add(vco)
+#
+#	return oc
 

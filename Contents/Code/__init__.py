@@ -5,8 +5,16 @@ NAME = 'TVHeadend'
 ART = 'art-default.jpg'
 ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
+
+#Links Structures
 structure = 'stream/channelid'
+transcode = '?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384' ## Prof Of Concept
 htsurl = 'http://%s:%s@%s:%s/%s/' % (Prefs['tvheadend_user'], Prefs['tvheadend_pass'], Prefs['tvheadend_host'], Prefs['tvheadend_port'], structure)
+
+#Options
+options_transcode = '%s' % (Prefs['tvheadend_transcode'])
+
+#Resource Files
 xml_file = Resource.Load('channels.xml')
 
 #Texts
@@ -32,25 +40,47 @@ def MainMenu():
 
 	return menu
 
-def GetChannels(prevTitle):
+if "on" in options_transcode:
+	def GetChannels(prevTitle):
+        
+		xml_content = XML.ElementFromString(xml_file)
+        	channels = xml_content.xpath("//channel")
+        	channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+        
 
-        xml_content = XML.ElementFromString(xml_file)
-        channels = xml_content.xpath("//channel")
-        channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+		for channel in channels:
+        	        name = channel.get('name')
+        	        id = channel.get('id')
+               		icons = channel.get('icon')
+                	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s%s" % (htsurl, id, transcode)))])
+                	vco = VideoClipObject(title=name, thumb=icons, url='%s%s%s' % (htsurl, id, transcode))
+                	vco.add(mo)
+                	channelList.add(vco)
+        	return channelList
+
+else:
+	def GetChannels(prevTitle):
+        
+		xml_content = XML.ElementFromString(xml_file)
+        	channels = xml_content.xpath("//channel")
+       		channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+
+        
+		for channel in channels:
+                	name = channel.get('name')
+                	id = channel.get('id')
+			icons = channel.get('icon')
+                	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
+                	vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
+                	vco.add(mo)
+                	channelList.add(vco)
+
+        	return channelList
 
 
-        for channel in channels:
-                name = channel.get('name')
-                id = channel.get('id')
-		icons = channel.get('icon')
-                mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
-                vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
-                vco.add(mo)
-                channelList.add(vco)
 
-        return channelList
-
-
+#################################################
+#Examples
 
 #Original Demo code below
 #def ChannelsMenu(title):
@@ -64,3 +94,6 @@ def GetChannels(prevTitle):
 #
 #	return oc
 
+##		Transcoding options from TVHeadend											     ##
+# http://user:password@tvheadendserver:9981/stream/channelid/66?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384 #
+##																       	     ##

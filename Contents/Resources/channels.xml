@@ -2,8 +2,16 @@
 <data>
 	<items>
 		<channel name="SVT1" id="64" icon="http://xmltv.tvsajten.com/chanlogos/svt1.svt.se.png"></channel>
-		<channel name="SVT2" id="66"></channel>
-		<channel name="TV3" id="76"></channel>
-		<channel name="TV4" id="77"></channel>
+		<channel name="SVT2" id="66" icon="http://xmltv.tvsajten.com/chanlogos/svt2.svt.se.png"></channel>
+		<channel name="TV3" id="76" icon="http://xmltv.tvsajten.com/chanlogos/tv3.viasat.se.png"></channel>
+		<channel name="TV4" id="77" icon="http://xmltv.tvsajten.com/chanlogos/tv4.se.png"></channel>
+		<channel name="Kanal 5" id="45" icon="http://xmltv.tvsajten.com/chanlogos/kanal5.se.png"></channel>
+		<channel name="TV6" id="86" icon="http://xmltv.tvsajten.com/chanlogos/tv6.viasat.se.png"></channel>
+		<channel name="Sjuan" id="4" icon=""></channel>
+		<channel name="TV8" id="87" icon="http://xmltv.tvsajten.com/chanlogos/tv8.se.png"></channel>
+		<channel name="Kanal 9" id="46" icon="http://xmltv.tvsajten.com/chanlogos/kanal9.se.png"></channel>
+		<channel name="TV10" id="74" icon="http://xmltv.tvsajten.com/chanlogos/tv10.viasat.se.png"></channel>
+		<channel name="TV11" id="75" icon="http://xmltv.tvsajten.com/chanlogos/tv11.tv4.se.png"></channel>
+
 	</items>
 </data>

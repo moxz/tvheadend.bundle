@@ -12,7 +12,7 @@ It supports direct stream from TVheadend from a directly taken stream : example 
 It has some support for using TVheadend as encoder/transcoder (this need's some tweaking and an git version of tvheadend with transcoding enabled).
 Preferences for username, password, port, enable/disable transcoding. (For some reason after editing the Preferences PMS has to be restarted, this needs to be fixed)
 It only works in PHT och PLEX Media Client on OSX Win Linux for now.
-Reads channel names , id numbers and icon for that channel out of channels.xml (Thought is to write something that reads out the channels from tvheadend to this file).
+Reads channel names , id numbers and icon for that channel out of channels.xml (This file has to be manualy updated for the time being, just look inside it to see what you need to change/add).
 
 Things to do in no order:
 Auto import and list channels from tvheadend

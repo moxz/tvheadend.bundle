@@ -26,7 +26,7 @@ TEXT_CHANNELS = u'Channels'
 def Start():
 	Plugin.AddPrefixHandler(PLUGIN_PREFIX, MainMenu, NAME, ICON, ART)
 
-	ObjectContainer.art = R(ART)	
+#	ObjectContainer.art = R(ART)	
 	TrackObject.thumb = R(ICON)
 
 ####################################################################################################

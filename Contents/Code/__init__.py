@@ -8,7 +8,7 @@ PLUGIN_PREFIX = '/video/tvheadend'
 
 #Links Structures
 structure = 'stream/channelid'
-transcode = '?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384' ## Prof Of Concept
+transcode = '?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384' ## Proof Of Concept
 htsurl = 'http://%s:%s@%s:%s/%s/' % (Prefs['tvheadend_user'], Prefs['tvheadend_pass'], Prefs['tvheadend_host'], Prefs['tvheadend_port'], structure)
 
 #Options

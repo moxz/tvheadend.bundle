@@ -2,17 +2,22 @@
 #               Thanks to Mikedm139 for helping me getting this to work. 			   #
 ####################################################################################################
 NAME = 'TVHeadend'
-ART = 'art-default.jpg'
+#ART = 'art-default.jpg'
 ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
+
+#Prefs
+username = '%s' % (Prefs['tvheadend_user']) 
+password = '%s' % (Prefs['tvheadend_pass'])
+hostname = '%s' % (Prefs['tvheadend_host'])
+web_port = '%s' % (Prefs['tvheadend_web_port'])
+htsp_port = '%s' % (Prefs['tvheadend_htsp_port'])
+options_transcode = '%s' % (Prefs['tvheadend_transcode'])
 
 #Links Structures
 structure = 'stream/channelid'
 transcode = '?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384' ## Proof Of Concept
-htsurl = 'http://%s:%s@%s:%s/%s/' % (Prefs['tvheadend_user'], Prefs['tvheadend_pass'], Prefs['tvheadend_host'], Prefs['tvheadend_port'], structure)
-
-#Options
-options_transcode = '%s' % (Prefs['tvheadend_transcode'])
+htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, structure)
 
 #Resource Files
 xml_file = Resource.Load('channels.xml')
@@ -24,14 +29,14 @@ TEXT_CHANNELS = u'Channels'
 ####################################################################################################
 
 def Start():
-	Plugin.AddPrefixHandler(PLUGIN_PREFIX, MainMenu, NAME, ICON, ART)
+	Plugin.AddPrefixHandler(PLUGIN_PREFIX, MainMenu, NAME, ICON)
 
 #	ObjectContainer.art = R(ART)	
 	TrackObject.thumb = R(ICON)
 
 ####################################################################################################
 
-@handler('/video/tvheadend', TEXT_TITLE, thumb=ICON, art=ART)
+@handler('/video/tvheadend', TEXT_TITLE, thumb=ICON)
 def MainMenu():
 
 	menu = ObjectContainer(title1=TEXT_TITLE)

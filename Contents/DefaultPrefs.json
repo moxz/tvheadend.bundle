@@ -3,7 +3,7 @@
 		"id":		"tvheadend_user",
 		"label":	"Username",
 		"type": 	"text",
-		"default": "", 
+		"default": 	"", 
 	},
 	
 	{
@@ -16,21 +16,28 @@
 	
 	{
 		"id": 		"tvheadend_host",
-		"label": 	"HOST",
+		"label": 	"Hostname or Ipaddress",
 		"type": 	"text",
 		"default": 	"", 
 	},
 	
 	{
-		"id":		"tvheadend_port",
-		"label": 	"port",
+		"id":		"tvheadend_web_port",
+		"label": 	"Web Port",
 		"type": 	"text",
 		"default": 	"9981", 
 	},
 	
+        {
+                "id":           "tvheadend_htsp_port",
+                "label":        "HTSP Port",
+                "type":         "text",
+                "default":      "9982",
+        },
+
 	{
 		"id":           "tvheadend_transcode",
-		"label":        "Preferred Bitrate",
+		"label":        "Transcoding",
 		"type":         "enum",
 		"values":       ["on", "off"],
 		"default":      "off",

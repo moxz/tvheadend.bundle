@@ -6,6 +6,9 @@ NAME = 'TVHeadend'
 ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
 
+#import
+import urllib2, base64, json
+
 #Prefs
 username = '%s' % (Prefs['tvheadend_user']) 
 password = '%s' % (Prefs['tvheadend_pass'])
@@ -45,18 +48,27 @@ def MainMenu():
 
 	return menu
 
+def getChannelsjson(username,password,host,port):
+        base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+        request = urllib2.Request("http://%s:%s/channels" % (host,port),"op=list" )
+        request.add_header("Authorization", "Basic %s" % base64string)
+        response = urllib2.urlopen(request)
+        json_tmp = response.read()
+        json_data = json.loads(json_tmp)
+        return json_data
+
 if "on" in options_transcode:
 	def GetChannels(prevTitle):
-        
-		xml_content = XML.ElementFromString(xml_file)
-        	channels = xml_content.xpath("//channel")
-        	channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
-        
-
-		for channel in channels:
-        	        name = channel.get('name')
-        	        id = channel.get('id')
-               		icons = channel.get('icon')
+ 		json_data = getChannelsjson(username,password,hostname,web_port)
+		channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+		
+		for channel in json_data['entries']:
+			name = channel['name']
+			id = channel['chid']
+			if 'ch_icon' in channel:
+				icons = channel['ch_icon']
+			else:
+				icons = ''
                 	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s%s" % (htsurl, id, transcode)))])
                 	vco = VideoClipObject(title=name, thumb=icons, url='%s%s%s' % (htsurl, id, transcode))
                 	vco.add(mo)
@@ -65,24 +77,21 @@ if "on" in options_transcode:
 
 else:
 	def GetChannels(prevTitle):
-        
-		xml_content = XML.ElementFromString(xml_file)
-        	channels = xml_content.xpath("//channel")
-       		channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
-
-        
-		for channel in channels:
-                	name = channel.get('name')
-                	id = channel.get('id')
-			icons = channel.get('icon')
-                	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
-                	vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
-                	vco.add(mo)
-                	channelList.add(vco)
-
+		json_data = getChannelsjson(username,password,hostname,web_port)
+		channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+		
+		for channel in json_data['entries']:
+			name = channel['name']
+			id = channel['chid']
+			if 'ch_icon' in channel:
+				icons = channel['ch_icon']
+			else:
+				icons = ''
+			mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
+			vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
+			vco.add(mo)
+			channelList.add(vco)
         	return channelList
-
-
 
 #################################################
 #Examples

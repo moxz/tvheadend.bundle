@@ -97,21 +97,3 @@ def GetChannels(prevTitle, tag=int(0)):
 			channelList.add(vco)
        	return channelList
 
-#################################################
-#Examples
-
-#Original Demo code below
-#def ChannelsMenu(title):
-#	oc = ObjectContainer(view_group='InfoList')
-#
-#	oc = ObjectContainer(title1="Channels")
-#	mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s25" % (htsurl)))])
-#	vco = VideoClipObject(title="C More Sport", url='%s25' % (htsurl))
-#	vco.add(mo)
-#	oc.add(vco)
-#
-#	return oc
-
-##		Transcoding options from TVHeadend											     ##
-# http://user:password@tvheadendserver:9981/stream/channelid/66?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384 #
-##																       	     ##

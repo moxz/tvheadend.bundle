@@ -73,15 +73,20 @@ def GetChannels(prevTitle, tag=int(0)):
 				if (tag == int(tids)):
 					name = channel['name']
 					id = channel['chid']
+					if 'ch_icon' in channel:
+						icons = channel['ch_icon']
+					else:
+						icons = ''
+
 		else:
 			name = channel['name']
 			id = channel['chid']
-
-		if name != '':
 			if 'ch_icon' in channel:
 				icons = channel['ch_icon']
 			else:
 				icons = ''
+
+		if name != '':
 			if "on" in options_transcode:
 				mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s%s" % (htsurl, id, transcode)))])
 				vco = VideoClipObject(title=name, thumb=icons, url='%s%s%s' % (htsurl, id, transcode))

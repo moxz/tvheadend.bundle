@@ -21,7 +21,9 @@ htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, str
 
 #Texts
 TEXT_TITLE = u'HTS-TVheadend'
-TEXT_CHANNELS = u'Channels'
+TEXT_CHANNELS = u'All Channels'
+TEXT_TAGS = u'Tags'
+TEXT_PREFERNCES = u'Settings'
 
 ####################################################################################################
 
@@ -37,9 +39,9 @@ def Start():
 def MainMenu():
 
 	menu = ObjectContainer(title1=TEXT_TITLE)
-	menu.add(DirectoryObject(key=Callback(GetChannels, prevTitle=TEXT_TITLE), title=TEXT_CHANNELS,))
-	menu.add(DirectoryObject(key=Callback(GetbyTags, prevTitle=TEXT_TITLE), title='tags',))
-	menu.add(PrefsObject(title='Preferences'))
+	menu.add(DirectoryObject(key=Callback(GetChannels, prevTitle=TEXT_TITLE), title=TEXT_CHANNELS, thumb=R('channel.png')))
+	menu.add(DirectoryObject(key=Callback(GetbyTags, prevTitle=TEXT_TITLE), title=TEXT_TAGS, thumb=R('tag.png')))
+	menu.add(PrefsObject(title=TEXT_PREFERNCES, thumb=R('settings.png')))
 
 	return menu
 
@@ -55,15 +57,15 @@ def getTVHeadendJson(what):
 
 def GetbyTags(prevTitle):
 	json_data = getTVHeadendJson('channeltags')
-	tagList = ObjectContainer(title1=prevTitle, title2='tags')
+	tagList = ObjectContainer(title1=prevTitle, title2=TEXT_TAGS,)
 
 	for tag in json_data['entries']:
-		tagList.add(DirectoryObject(key=Callback(GetChannels, prevTitle=tag['name'], tag=int(tag['identifier'])), title=tag['name'],))
+		tagList.add(DirectoryObject(key=Callback(GetChannels, prevTitle=tag['name'], tag=int(tag['identifier'])), title=tag['name'], thumb=R('tag.png')))
 	return tagList
 
 def GetChannels(prevTitle, tag=int(0)):
 	json_data = getTVHeadendJson('channels')
-	channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS)
+	channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS,)
 
 	for channel in json_data['entries']:
 		name = ''
@@ -76,7 +78,7 @@ def GetChannels(prevTitle, tag=int(0)):
 					if 'ch_icon' in channel:
 						icons = channel['ch_icon']
 					else:
-						icons = ''
+						icons = R('channel.png')
 
 		else:
 			name = channel['name']
@@ -84,7 +86,7 @@ def GetChannels(prevTitle, tag=int(0)):
 			if 'ch_icon' in channel:
 				icons = channel['ch_icon']
 			else:
-				icons = ''
+				icons = R('channel.png')
 
 		if name != '':
 			if "on" in options_transcode:

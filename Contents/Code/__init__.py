@@ -23,7 +23,7 @@ htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, str
 TEXT_TITLE = u'HTS-TVheadend'
 TEXT_CHANNELS = u'All Channels'
 TEXT_TAGS = u'Tags'
-TEXT_PREFERNCES = u'Settings'
+TEXT_TEXT_PREFERENCES = u'Settings'
 
 ####################################################################################################
 
@@ -41,7 +41,7 @@ def MainMenu():
 	menu = ObjectContainer(title1=TEXT_TITLE)
 	menu.add(DirectoryObject(key=Callback(GetChannels, prevTitle=TEXT_TITLE), title=TEXT_CHANNELS, thumb=R('channel.png')))
 	menu.add(DirectoryObject(key=Callback(GetbyTags, prevTitle=TEXT_TITLE), title=TEXT_TAGS, thumb=R('tag.png')))
-	menu.add(PrefsObject(title=TEXT_PREFERNCES, thumb=R('settings.png')))
+	menu.add(PrefsObject(title=TEXT_PREFERENCES, thumb=R('settings.png')))
 
 	return menu
 

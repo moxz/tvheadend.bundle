@@ -4,7 +4,7 @@ ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
 
 #import
-import urllib2, base64, json
+import urllib2, base64, json, time
 
 #Prefs
 username = '%s' % (Prefs['tvheadend_user']) 
@@ -45,8 +45,10 @@ def MainMenu():
 
 	return menu
 
-def getTVHeadendJson(what):
-	tvh_url = dict( channels='op=list', channeltags='op=listTags')
+def getTVHeadendJson(what, url = False):
+	tvh_url = dict( channels='op=list', channeltags='op=listTags', epg='start=0&limit=300')
+	if url != False: 
+		tvh_url[what] = url
         base64string = base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
         request = urllib2.Request("http://%s:%s/%s" % (hostname,web_port,what),tvh_url[what])
         request.add_header("Authorization", "Basic %s" % base64string)
@@ -65,10 +67,17 @@ def GetbyTags(prevTitle):
 
 def GetChannels(prevTitle, tag=int(0)):
 	json_data = getTVHeadendJson('channels')
+	json_data_epg = getTVHeadendJson('epg')
 	channelList = ObjectContainer(title1=prevTitle, title2=TEXT_CHANNELS,)
 
 	for channel in json_data['entries']:
 		name = ''
+		id = 0
+		duration = 0
+		summary = ''
+		epg_title = ''
+		epg_start = 0
+		epg_end = 0
 		if tag > 0:
 			tags = channel['tags'].split(',')
 			for tids in tags:
@@ -89,12 +98,28 @@ def GetChannels(prevTitle, tag=int(0)):
 				icons = R('channel.png')
 
 		if name != '':
+			# Add epg
+			for epg in json_data_epg['entries']:
+				if int(epg['channelid']) == int(id):
+					if 'duration' in epg:
+						duration = epg['duration']*1000
+					if 'start' in epg:
+						epg_start = time.strftime("%H:%M", time.localtime(int(epg['start'])))
+					if 'end' in epg:
+						epg_end = time.strftime("%H:%M", time.localtime(int(epg['end'])))
+					if 'description' in epg:
+						summary = epg['description']
+					if 'title' in epg:
+						name = '%s -> %s' % (name, epg['title'])
+						summary = '%s (%s-%s)\n\n%s' % (epg['title'],epg_start,epg_end, summary)
+					break;
+
 			if "on" in options_transcode:
 				mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s%s" % (htsurl, id, transcode)))])
-				vco = VideoClipObject(title=name, thumb=icons, url='%s%s%s' % (htsurl, id, transcode))
+				vco = VideoClipObject(title=name, thumb=icons, summary=summary, duration=duration, url='%s%s%s' % (htsurl, id, transcode))
 			else:
 				mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (htsurl, id)))])
-				vco = VideoClipObject(title=name, thumb=icons, url='%s%s' % (htsurl, id))
+				vco = VideoClipObject(title=name, thumb=icons,  summary=summary, duration=duration, url='%s%s' % (htsurl, id))
 			vco.add(mo)
 			channelList.add(vco)
        	return channelList

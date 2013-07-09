@@ -3,9 +3,7 @@ tvheadend.bundle
 
 HTS-TVHeadend channel for Plex Media Server
 
-WIP and Proof of concept.
 This Channel takes the http streams from TVheadend and displays them in your PHT/PMC client.
-A better way would probably to directly communicate with TVheaend with it's own hts protocol.
 
 What does it do for now?
 
@@ -14,17 +12,14 @@ It has some support for using TVheadend as encoder/transcoder (this need's some 
 Preferences for username, password, port, enable/disable transcoding. (For some reason after editing the Preferences PMS has to be restarted, this needs to be fixed)
 It only works in PHT och PLEX Media Client on OSX Win Linux for now.
 
-Thanks to Furs on Plex Forums the plugin now gets all channels directly from TVheadend
+Thanks to Furs on Plex Forums the plugin now gets all channels/tags directly from TVheadend
 
-
-Things to do in no order: 
-Auto import and list channels from tvheadend
 
 Options for using TVHeadend as a transcoder so iOS/mobile devices can use the plugin.
-(Some code for this has been added)
+(Some code for this has been added but higly experimental and does not know if it will work in the end)
 
-Things that have superlow prio.
-EPG
-Recording options
+TVheadend plugin Icon is a  mockup of TVheadend logo (https://tvheadend.org) and Plex logo (http://plexapp.com) all rights to their respective owners.
 
-Icon is a  mockup of TVheadend logo (https://tvheadend.org) and Plex logo (http://plexapp.com) all rights to their respective owners. 
+If anyone wants to make new icons please do so.
+The ones included now is just there to show how it will look.
+All icons is taken from Faenza and Faince and is owned by their creators.

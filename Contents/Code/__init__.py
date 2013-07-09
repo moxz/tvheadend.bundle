@@ -75,7 +75,6 @@ def GetChannels(prevTitle, tag=int(0)):
 		id = 0
 		duration = 0
 		summary = ''
-		epg_title = ''
 		epg_start = 0
 		epg_end = 0
 		if tag > 0:

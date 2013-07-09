@@ -1,4 +1,4 @@
-tvheadend.bundle
+tvheadend.bundle V.0.1 (09 July 2013)
 ================
 
 HTS-TVHeadend channel for Plex Media Server
@@ -12,7 +12,10 @@ It has some support for using TVheadend as encoder/transcoder (this need's some 
 Preferences for username, password, port, enable/disable transcoding. (For some reason after editing the Preferences PMS has to be restarted, this needs to be fixed)
 It only works in PHT och PLEX Media Client on OSX Win Linux for now.
 
-Thanks to Furs on Plex Forums the plugin now gets all channels/tags directly from TVheadend
+Thanks TO:
+Furs on Plex Forums the plugin now gets all channels/tags directly from TVheadend
+Mikedm139 on Plex Forums who helped me getting startet in a good way.
+All others who have in any way provided for this channel/plugin
 
 
 Options for using TVHeadend as a transcoder so iOS/mobile devices can use the plugin.

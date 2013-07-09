@@ -23,7 +23,7 @@ htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, str
 TEXT_TITLE = u'HTS-TVheadend'
 TEXT_CHANNELS = u'All Channels'
 TEXT_TAGS = u'Tags'
-TEXT_TEXT_PREFERENCES = u'Settings'
+TEXT_PREFERENCES = u'Settings'
 
 ####################################################################################################
 

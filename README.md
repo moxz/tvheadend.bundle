@@ -1,6 +1,3 @@
-tvheadend.bundle V.0.1 (09 July 2013)
-================
-
 HTS-TVHeadend channel for Plex Media Server
 
 This Channel takes the http streams from TVheadend and displays them in your PHT/PMC client.

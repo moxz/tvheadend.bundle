@@ -4,7 +4,8 @@ ICON = 'icon-default.png'
 PLUGIN_PREFIX = '/video/tvheadend'
 
 #import
-import urllib2, base64, json, time
+import urllib2, base64, simplejson, time
+json = simplejson
 
 #Prefs
 username = '%s' % (Prefs['tvheadend_user']) 
@@ -16,7 +17,7 @@ options_transcode = '%s' % (Prefs['tvheadend_transcode'])
 
 #Links Structures
 structure = 'stream/channelid'
-transcode = '?mux=matroska&acodec=vorbis&vcodec=H264&scodec=NONE&transcode=1&resolution=384' ## Proof Of Concept
+transcode = '?mux=mpegts&acodec=aac&vcodec=H264&transcode=1&resolution=384' ## Proof Of Concept
 htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, structure)
 
 #Texts

@@ -19,11 +19,13 @@ options_transcode = '%s' % (Prefs['tvheadend_transcode'])
 structure = 'stream/channelid'
 transcode = '?mux=mpegts&acodec=aac&vcodec=H264&transcode=1&resolution=384' ## Proof Of Concept
 htsurl = 'http://%s:%s@%s:%s/%s/' % (username, password, hostname, web_port, structure)
+recordurl = 'http://%s:%s@%s:%s/' % (username, password, hostname, web_port)
 
 #Texts
 TEXT_TITLE = u'HTS-TVheadend'
 TEXT_CHANNELS = u'All Channels'
 TEXT_TAGS = u'Tags'
+TEXT_RECORDINGS = u'Recordings'
 TEXT_PREFERENCES = u'Settings'
 
 ####################################################################################################
@@ -42,6 +44,7 @@ def MainMenu():
 	menu = ObjectContainer(title1=TEXT_TITLE)
 	menu.add(DirectoryObject(key=Callback(GetChannels, prevTitle=TEXT_TITLE), title=TEXT_CHANNELS, thumb=R('channel.png')))
 	menu.add(DirectoryObject(key=Callback(GetbyTags, prevTitle=TEXT_TITLE), title=TEXT_TAGS, thumb=R('tag.png')))
+	menu.add(DirectoryObject(key=Callback(GetRecordings, prevTitle=TEXT_TITLE), title=TEXT_RECORDINGS, thumb=R('recording.png')))
 	menu.add(PrefsObject(title=TEXT_PREFERENCES, thumb=R('settings.png')))
 
 	return menu
@@ -57,6 +60,36 @@ def getTVHeadendJson(what, url = False):
         json_tmp = response.read()
         json_data = json.loads(json_tmp)
         return json_data
+
+def GetRecordings(prevTitle):
+	json_data = getTVHeadendJson('dvrlist_finished',url='')
+	recordingList = ObjectContainer(title1=prevTitle, title2=TEXT_RECORDINGS,)
+	for recording in json_data['entries']:
+		name = ''
+		id = 0
+		duration = 0
+		summary = ''
+		epg_start = 0
+		epg_end = 0
+		name = recording['title']
+		id = recording['id']
+		summary = recording['description']
+		epg_start = time.strftime("%H:%M", time.localtime(recording['start']))
+		epg_end = time.strftime("%H:%M", time.localtime(recording['end']))
+		duration = recording['duration']*1000
+		summary = '%s (%s-%s)\n\n%s' % (recording['title'],epg_start,epg_end, summary)
+		if 'episode' in recording:
+			name = '%s - %s' % (recording['title'],recording['episode'])
+		if "on" in options_transcode:
+			mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s%s" % (recordurl, recording['url'], transcode)))])
+			vco = VideoClipObject(title=name, thumb=icons, summary=summary, duration=duration, url='%s%s%s' % (recordurl, recording['url'], transcode))
+		else:
+			mo = MediaObject(parts=[PartObject(key=HTTPLiveStreamURL("%s%s" % (recordurl, recording['url'])))])
+			vco = VideoClipObject(title=name, thumb=R('recording.png'),  summary=summary, duration=duration, url='%s%s' % (recordurl, recording['url']))
+		vco.add(mo)
+		recordingList.add(vco)
+	return recordingList
+
 
 def GetbyTags(prevTitle):
 	json_data = getTVHeadendJson('channeltags')

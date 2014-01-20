@@ -1,3 +1,5 @@
+Please use this fork https://github.com/realriot/tvheadend-ng.bundle it supports transcoding and works with the latest git of tvheadend.
+
 HTS-TVHeadend channel for Plex Media Server
 
 This Channel takes the http streams from TVheadend and displays them in your PHT/PMC client.
@@ -24,5 +26,3 @@ If anyone wants to make new icons please do so.
 The ones included now is just there to show how it will look.
 All icons is taken from Faenza and Faince and is owned by their creators.
 
-
-Please use this fork https://github.com/realriot/tvheadend-ng.bundle it supports transcoding and works with the latest git of tvheadend.
